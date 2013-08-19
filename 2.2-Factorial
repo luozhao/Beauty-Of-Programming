@@ -38,3 +38,18 @@ void count_zero(int N)
   }
   return ret;
 }
+
+/*
+* 2.给定一个正整数n，求解n的阶乘(二进制)低位1的位置.
+* 这个问题实际上等于求N!含有质因数2的个数。即答案等于N! 含有2的质因数个数加1.
+*/
+int lowest_one(int N)
+{
+  int ret = 0;
+  while(N)
+  {
+    N >>= 1;
+    ret += N;
+  }
+  return ret;
+}
