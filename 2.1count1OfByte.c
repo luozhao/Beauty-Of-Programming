@@ -82,4 +82,5 @@ int main()
 	//int num = count_1_2(n);
 	int num = count_1_3(n);
 	printf("%d 中 1 的个数 为 %d \n",n,num);
+	return 0;
 }
