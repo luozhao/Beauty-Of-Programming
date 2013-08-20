@@ -31,5 +31,36 @@ BigInt gcd(BigInt x, BigInt y)
 }
 
 
-
+/*
+   解法3：取p=2，
+   若x,y均为偶数，f(x,y) = 2*f(x/2,y/2) = 2*f(x>>1,y>>1)
+   若x为偶数,y为奇数，f(x,y) = f(x/2,y) = f(x>>1,y)
+   若x为奇数，y为偶数，f(x,y) = f(x,y/2) = f(x,y>>1)
+   若x,y均为奇数，f(x,y) = f(x,x-y)
+   那么在f(x,y)=f(x.x-y)之后，x-y一定是偶数，下一步一定会有除以2的操作
+*/
+BigInt gcd(BigInt x, BigInt y)
+{
+   if(x < y)
+      return gcd(y,x);
+   if(y == 0)
+      return x;
+   else
+   {
+      if(IsEven(x))
+      {
+         if(IsEven(y))
+            return (gcd(x>>1,y>>1)<<1);
+         else
+            return gcd(x>>1,y);
+      }
+      else 
+      {
+         if(IsEven(y))
+            return gcd(x,y>>1);
+         else
+            return gcd(y,x-y);
+      }
+   }
+}
 
