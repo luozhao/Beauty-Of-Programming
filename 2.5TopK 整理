@@ -1,1 +1,64 @@
 此处列举了TopK问题的各种解法
+/*
+  个数为几万亿时，数据量较大不适合全装入内存中，且无法容忍多次访问，所有数据只能访问一次，
+  推荐使用最小堆法，但要求K较小，否则无法在内存中存下整个最小堆。
+  用容量为K的最小堆来存储最大的K个数，最小堆的堆顶元素就是最大K个数中最小的一个。
+  每次考虑一个新的元素时，将其与堆顶的元素进行比较，只有当它大于堆顶元素时，才用其替换堆顶元素，并更新最小堆。
+  时间复杂度为O(N*logK)。
+*/
+#include <iostream>
+
+using namespace std;
+
+#define MAXN 103
+
+int H[MAXN];
+
+void upshift(int s)
+{
+	int tmp = H[s];
+	while (s>1 && H[s>>1] > tmp)
+	{
+		H[s] = H[s>>1];
+		s >>= 1;
+	}
+	H[s] = tmp;
+}
+
+void downshift(int n)
+{
+	int tmp = H[1];
+	int i=1, j=i<<1;
+	while (j <= n)
+	{
+		if (j+1 <= n && H[j+1] < H[j]) j++;
+		if (H[j] < tmp) H[i] = H[j];
+		else break;
+		i = j;
+		j = j<<1;
+	}
+	H[i] = tmp;
+}
+
+int main()
+{
+	int n, k, i, A;
+	cin >> n >> k;
+	for (i=1; i<=k; i++)
+	{
+		cin >> H[i];
+		upshift(i);
+	}
+	for (; i<=n; i++)
+	{
+		cin >> A;
+		if (A > H[1])
+		{
+			H[1] = A;
+			downshift(k);
+		}
+	}
+	for (i=1; i<=k; i++)
+		cout << H[i] << " ";
+	cout << endl;
+}
